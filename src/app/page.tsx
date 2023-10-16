@@ -21,6 +21,16 @@ async function handleDelete(id: string) {
   revalidatePath('/');
 }
 
+export async function generateStaticParams(): Promise<Array<{ id: string }>> {
+  const todos = await getTodos();
+
+  if (!todos || todos.length === 0) {
+    return [];
+  }
+
+  return todos.map((todo) => ({ id: todo.id }));
+}
+
 export default async function Home() {
   const todos = await getTodos();
 

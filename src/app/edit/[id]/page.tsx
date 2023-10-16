@@ -1,5 +1,6 @@
 import { prisma } from '@/app/db';
 import { Metadata } from 'next';
+import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 
@@ -24,6 +25,7 @@ async function updateTodo(data: FormData, id: string) {
 
   await prisma.todo.update({ where: { id }, data: { title } });
 
+  revalidatePath('/');
   redirect('/');
 }
 
